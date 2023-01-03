@@ -1,0 +1,48 @@
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: weight_zscore ~ sex * treatment * age_days + (1 | id)
+   Data: cont
+
+REML criterion at convergence: 27.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.5787 -0.4957  0.0728  0.5190  3.7214 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ id       (Intercept) 0.09359  0.3059  
+ Residual             0.03327  0.1824  
+Number of obs: 189, groups:  id, 26
+
+Fixed effects:
+                                 Estimate Std. Error         df t value
+(Intercept)                    -1.540e+00  1.474e-01  2.673e+01 -10.452
+sexM                            2.127e-01  1.845e-01  2.710e+01   1.153
+treatmentcontrol                1.540e-01  1.999e-01  2.693e+01   0.770
+age_days                        1.591e-02  4.860e-04  1.591e+02  32.748
+sexM:treatmentcontrol          -2.166e-01  2.652e-01  2.698e+01  -0.817
+sexM:age_days                  -8.290e-05  6.205e-04  1.591e+02  -0.134
+treatmentcontrol:age_days      -1.937e-03  6.775e-04  1.592e+02  -2.860
+sexM:treatmentcontrol:age_days  2.214e-03  9.203e-04  1.592e+02   2.406
+                               Pr(>|t|)    
+(Intercept)                    6.13e-11 ***
+sexM                            0.25899    
+treatmentcontrol                0.44800    
+age_days                        < 2e-16 ***
+sexM:treatmentcontrol           0.42131    
+sexM:age_days                   0.89388    
+treatmentcontrol:age_days       0.00481 ** 
+sexM:treatmentcontrol:age_days  0.01727 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) sexM   trtmnt ag_dys sxM:tr sxM:g_ trtm:_
+sexM        -0.799                                          
+trtmntcntrl -0.737  0.589                                   
+age_days    -0.313  0.250  0.231                            
+sxM:trtmntc  0.556 -0.696 -0.754 -0.174                     
+sexM:ag_dys  0.245 -0.322 -0.181 -0.783  0.224              
+trtmntcnt:_  0.225 -0.180 -0.315 -0.717  0.238  0.562       
+sxM:trtmn:_ -0.165  0.217  0.232  0.528 -0.314 -0.674 -0.736

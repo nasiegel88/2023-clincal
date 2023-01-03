@@ -1,0 +1,190 @@
+---
+title: "CBC Splines"
+author: 
+  - Noah Siegel
+date: "`r format(Sys.time(), '%d %B, %Y, %H:%M')`"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "documents") })
+output:
+  pdf_document:
+     includes:
+        in_header: style.sty
+---
+
+```{r environment, include=F}
+# Set up global options for nice reports and keeping figures:
+knitr::opts_chunk$set(fig.width=14, fig.height=8, fig.align="center", dev = 'png',
+                      warning=FALSE, message=FALSE)
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(sjPlot)
+  library(lmerTest)
+  library(readxl)
+  library(xlsx)
+  library(kableExtra)
+  library(splines)
+  library(redres)
+})
+```
+
+```{r directory, include=F}
+dir.create('cbc', showWarnings = FALSE)
+```
+
+```{r include=F}
+source("R/download-data.R")
+source("R/functions.R")
+source("R/cbc-zscores.R", local = TRUE)
+```
+
+```{r echo=F}
+# format metadata for publication
+cont$treatment <- as.character(cont$treatment)
+cont$sex <- as.character(cont$sex)
+names(cont)[names(cont)=="treatment"] <- "Treatment"
+names(cont)[names(cont)=="sex"] <- "Sex"
+cont$Treatment[cont$Treatment == "control"] <- "Control"
+cont$Treatment[cont$Treatment == "abx"] <- "Antibiotic"
+```
+
+```{r echo=F}
+cont$Sex[cont$Sex == "M"] <- "Males"
+cont$Sex[cont$Sex == "F"] <- "Females"
+cont$Treatment <- factor(cont$Treatment)
+cont$Sex <- factor(cont$Sex)
+```
+
+#### White Blood cells/ul Z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(WBC_zscore ~ ns(age_days, df=5)*Sex*Treatment+(1|animal_number),data=cont)
+```
+
+```{r echo=FALSE}
+p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p_res = plot_redres(fit, type = "std_cond")
+dir = file.path("figures", "cbc", "wbc-zscores.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+p
+```
+
+```{r echo=F}
+dt <- anova(fit)
+# LaTeX Table
+kbl(dt, booktabs = T, digits = 3, caption = "Total WBC Z score") %>%
+  kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
+```
+
+### Polymononuclear Cells/ul z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(PMN_zscore ~ ns(age_days, df=5)*Sex*Treatment +(1|animal_number),data=cont)
+```
+
+```{r echo=FALSE}
+p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p_res = plot_redres(fit, type = "std_cond")
+dir = file.path("figures", "cbc", "NLR-zscores.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+p
+```
+
+```{r echo=F}
+dt <- anova(fit)
+# LaTeX Table
+kbl(dt, booktabs = T, digits = 3, caption = "PMN Concentration Z score") %>%
+  kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
+```
+
+### Lymphoyctes/ul z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(Lymph_zscore ~ ns(age_days, df=5)*Sex*Treatment +(1|animal_number),data=cont )
+```
+
+```{r echo=FALSE}
+p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p_res = plot_redres(fit, type = "std_cond")
+dir = file.path("figures", "cbc", "lymphocytes-zscores.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+p
+```
+
+```{r echo=F}
+dt <- anova(fit)
+# LaTeX Table
+kbl(dt, booktabs = T, digits = 3, caption = "Lymphocyte Concentration Z score") %>%
+  kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
+```
+
+### Monocytes/ul z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(Mono_zscore ~ ns(age_days, df=5)*Sex*Treatment +(1|animal_number),data=cont)
+```
+
+```{r echo=FALSE}
+p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p_res = plot_redres(fit, type = "std_cond")
+dir = file.path("figures", "cbc", "monocytes-zscores.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+p
+```
+
+```{r echo=F}
+dt <- anova(fit)
+# LaTeX Table
+kbl(dt, booktabs = T, digits = 3, caption = "Monocyte Concentration Z score") %>%
+  kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
+```
+
+### Eosinophils/ul z scores
+
+```{r echo=F}
+fit=lmerTest::lmer(Eos_zscore ~ ns(age_days, df=5)*Sex*Treatment+(1|animal_number),data=cont)
+```
+
+```{r echo=FALSE}
+p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"),  show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p_res = plot_redres(fit, type = "std_cond")
+dir = file.path("figures", "cbc", "eosinophil-zscores.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+p
+```
+
+```{r echo=F}
+dt <- anova(fit)
+# LaTeX Table
+kbl(dt, booktabs = T, digits = 3, caption = "Eosinophil Concentration Z score") %>%
+  kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
+```
+
+### Neutrophil to Lymphocte ratio z scores
+
+```{r echo=F}
+fit=lmerTest::lmer(NLR_zscore ~ ns(age_days, df=5)*Sex*Treatment+(1|animal_number),data=cont)
+```
+
+```{r echo=FALSE}
+p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p_res = plot_redres(fit, type = "std_cond")
+dir = file.path("figures", "cbc", "NLR-zscores.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+p
+```
+
+```{r echo=F}
+dt <- anova(fit)
+# LaTeX Table
+kbl(dt, booktabs = T, digits = 3, caption = "Neutrophil to Lymphocyte Ratio Z score") %>%
+  kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
+```
+
+### Session Information
+
+```{r echo=F}
+sessionInfo()
+```

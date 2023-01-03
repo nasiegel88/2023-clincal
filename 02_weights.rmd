@@ -1,0 +1,78 @@
+---
+title: "Weight regression"
+author: 
+  - Noah Siegel
+date: "`r format(Sys.time(), '%d %B, %Y, %H:%M')`"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "documents") })
+output:
+  pdf_document:
+     includes:
+        in_header: style.sty
+---
+
+```{r environment, include=F}
+# Set up global options for nice reports and keeping figures:
+knitr::opts_chunk$set(fig.width=14, fig.height=8, fig.align="center", dev = 'png',
+                      warning=FALSE, message=FALSE)
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(tidyverse)
+  library(sjPlot)
+  library(lmerTest)
+  library(readxl)
+  library(xlsx)
+  library(kableExtra)
+})
+```
+
+```{r directory, include=F}
+dir.create('tables', showWarnings = FALSE)
+```
+
+```{r, download data, include=F}
+source("R/download-data.R")
+```
+
+```{r echo=F, excel-directory}
+var = "tables/"
+```
+
+```{r include=F}
+source("R/subset.R", local = TRUE)
+```
+
+```{r include=F}
+source("R/weight-zscores.R", local = TRUE)
+```
+
+### Weight Z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(weight_zscore ~sex*treatment*age_days+(1|id),data=cont)
+write(capture.output(summary(fit)), "tables/continuous-time-weightmod.txt") # export model summary to file
+write.xlsx(cont, file= paste(var, "continuous-modinput" , ".xlsx", sep=""), sheetName="Sheet1",
+         col.names=TRUE, row.names=TRUE, append=FALSE) # export input table for model
+```
+
+### Residual plot
+```{r echo=F}
+p=plot_model(fit, type = "eff", title="", terms = c("age_days", 'treatment', "sex"), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p
+dir = file.path("figures", "weight-zscores-mean-pred.tiff")
+ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
+```
+
+### Model table
+```{r echo=F}
+kable(as.data.frame(anova(fit)), digits = 3, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+```
+
+### Session Information
+```{r echo=F}
+sessionInfo()
+```
+
