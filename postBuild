@@ -3,18 +3,8 @@
 # Stop on fail!
 set -e
 
-# Read in packages
-Rscript -e "library(withr)"
-Rscript -e "library(devtools)"
-Rscript -e "library(remotes)"
-
-# Install GitHub dependencies
-Rscript -e "withr::with_libpaths(new = '/srv/conda/envs/notebook/lib/R/library' , devtools::install_github('goodekat/redres@714227e', upgrade = 'never', dependencies = TRUE))"
-
-Rscript -e "withr::with_libpaths(new = '/srv/conda/envs/notebook/lib/R/library', devtools::install_github('microbiome/microbiome@e0e24cb', build_vignettes = FALSE, upgrade = 'never'))"
-
-Rscript -e "withr::with_libpaths(new = '/srv/conda/envs/notebook/lib/R/library', devtools::install_github('jbisanz/qiime2R@574708a', upgrade = 'never'))"
-
-Rscript -e "withr::with_libpaths(new = '/srv/conda/envs/notebook/lib/R/library', devtools::install_github('RRShieldsCutler/splinectomeR@a644068', upgrade = 'never'))"
-
-Rscript -e "withr::with_libpaths(new = '/srv/conda/envs/notebook/lib/R/library', remotes::install_version('omu', version = '1.0.4', upgrade = 'never', repos = 'http://cran.us.r-project.org'))"
+Rscript - <<'EOF'
+    library('devtools')
+    devtools::install_github('goodekat/redres@714227e', upgrade = 'never', dependencies = TRUE)
+    devtools::install_github('RRShieldsCutler/splinectomeR@a644068', upgrade = 'never')
+EOF
