@@ -1,0 +1,8 @@
+.TinyTeX/
+.config/
+.jupyter-server-log.txt
+.jupyter/
+.local/
+.subversion/
+01_cbcs.log
+bin/

@@ -48,6 +48,10 @@ names(cont)[names(cont)=="treatment"] <- "Treatment"
 names(cont)[names(cont)=="sex"] <- "Sex"
 cont$Treatment[cont$Treatment == "control"] <- "Control"
 cont$Treatment[cont$Treatment == "abx"] <- "Antibiotic"
+cont$Treatment[cont$Treatment == "control"] <- "Control"
+cont$Treatment[cont$Treatment == "abx"] <- "Antibiotic"
+cont$Treatment[cont$Treatment == "control_H1N1"] <- "Control H1N1"
+cont$Treatment[cont$Treatment == "abx_H1N1"] <- "Antibiotic H1N1"
 ```
 
 ```{r echo=F}
@@ -58,13 +62,16 @@ cont$Sex <- factor(cont$Sex)
 ```
 
 #### White Blood cells/ul Z-scores
+```{r}
+test <- cont %>% filter(Treatment == 'Control H1N1' |  Treatment == 'Antibiotic H1N1')
+```
 
 ```{r echo=F}
-fit=lmerTest::lmer(WBC_zscore ~ ns(age_days, df=5)*Sex*Treatment+(1|animal_number),data=cont)
+fit=lmerTest::lmer(WBC_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=test)
 ```
 
 ```{r echo=FALSE}
-p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "pred",title ="", terms = c("infection_day [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
 dir = file.path("figures", "cbc", "wbc-zscores.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
@@ -81,11 +88,11 @@ kbl(dt, booktabs = T, digits = 3, caption = "Total WBC Z score") %>%
 ### Polymononuclear Cells/ul z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(PMN_zscore ~ ns(age_days, df=5)*Sex*Treatment +(1|animal_number),data=cont)
+fit=lmerTest::lmer(PMN_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=test)
 ```
 
 ```{r echo=FALSE}
-p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "pred",title ="", terms = c("infection_day [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
 dir = file.path("figures", "cbc", "NLR-zscores.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
@@ -102,11 +109,11 @@ kbl(dt, booktabs = T, digits = 3, caption = "PMN Concentration Z score") %>%
 ### Lymphoyctes/ul z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(Lymph_zscore ~ ns(age_days, df=5)*Sex*Treatment +(1|animal_number),data=cont )
+fit=lmerTest::lmer(Lymph_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=test )
 ```
 
 ```{r echo=FALSE}
-p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "pred",title ="", terms = c("infection_day [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
 dir = file.path("figures", "cbc", "lymphocytes-zscores.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
@@ -123,11 +130,11 @@ kbl(dt, booktabs = T, digits = 3, caption = "Lymphocyte Concentration Z score") 
 ### Monocytes/ul z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(Mono_zscore ~ ns(age_days, df=5)*Sex*Treatment +(1|animal_number),data=cont)
+fit=lmerTest::lmer(Mono_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=test)
 ```
 
 ```{r echo=FALSE}
-p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "pred",title ="", terms = c("infection_day [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
 dir = file.path("figures", "cbc", "monocytes-zscores.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
@@ -144,11 +151,11 @@ kbl(dt, booktabs = T, digits = 3, caption = "Monocyte Concentration Z score") %>
 ### Eosinophils/ul z scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(Eos_zscore ~ ns(age_days, df=5)*Sex*Treatment+(1|animal_number),data=cont)
+fit=lmerTest::lmer(Eos_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=test)
 ```
 
 ```{r echo=FALSE}
-p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"),  show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "pred",title ="", terms = c("infection_day [all]", 'Treatment'), colors = c("darkred", "darkblue"),  show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
 dir = file.path("figures", "cbc", "eosinophil-zscores.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
@@ -165,11 +172,11 @@ kbl(dt, booktabs = T, digits = 3, caption = "Eosinophil Concentration Z score") 
 ### Neutrophil to Lymphocte ratio z scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(NLR_zscore ~ ns(age_days, df=5)*Sex*Treatment+(1|animal_number),data=cont)
+fit=lmerTest::lmer(NLR_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=test)
 ```
 
 ```{r echo=FALSE}
-p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "pred",title ="", terms = c("infection_day [all]", 'Treatment'), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
 dir = file.path("figures", "cbc", "NLR-zscores.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")

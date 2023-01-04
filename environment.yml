@@ -1,7 +1,6 @@
 name: mldgut
 channels:
  - conda-forge
- - bioconda
  - defaults
 dependencies:
  - r-base=3.6.3=hbcea092_8
@@ -33,3 +32,4 @@ dependencies:
  - r-randomForest=4.6_14=r36h580db52_1004
  - r-remotes=2.3.0=r36hc72bb7e_0
  - r-patchwork=1.1.1=r36hc72bb7e_0
+ - r-rmarkdown
