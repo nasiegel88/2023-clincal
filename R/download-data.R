@@ -1,9 +1,59 @@
+# Weight data
 temp.file_all_weight_points <- paste(tempfile(),".xlsx",sep = "")
 download.file("https://ucdavis.box.com/shared/static/1gdjumy024tuoe2gbte8gln64xpnc7gh.xlsx", 
               temp.file_all_weight_points, mode = "wb")
-all_weight_points <- read_excel(temp.file_all_weight_points)
+all_weight_points <- read_excel(temp.file_all_weight_points) %>%
+  mutate(id = as.character(id))
 
+# Data transfer to HPC
+## scp -P 2022 -r "/mnt/c/Users/Noah Siegel/Desktop/webvitals/data/20230105-141546-weight_webvitals_query.csv" "nasiegel@farm.cse.ucdavis.edu:~/2023-clincal/data"
 
+weight <- read_csv('data/20230105-141546-weight_webvitals_query.csv') %>%
+  select(-c(X1, Location)) %>%
+  rename(
+    id = MMU,
+    sex = Sex,
+    date = `Weighing Date`,
+    birthday = Birth,
+    age_months = Age_months,
+    age_days = Age_days,
+    weight_kg = Weight
+  ) %>%
+  mutate(
+    .before = id,
+    year = 3,
+  ) %>%
+  mutate(
+    # Convert to correct types
+    id = as.character(id),
+    age_months = round(age_months),
+    # Clean up data
+    .after = sex,
+    treatment = 
+      case_when(
+        startsWith(id, '50583') ~ 'control_H1N1',
+        startsWith(id, '50584') ~ 'control_H1N1',
+        startsWith(id, '50598') ~ 'control_H1N1',
+        startsWith(id, '50706') ~ 'abx_H1N1',
+        startsWith(id, '50722') ~ 'abx_H1N1',
+        startsWith(id, '50724') ~ 'abx_H1N1',
+        startsWith(id, '50674') ~ 'control',
+        startsWith(id, '50691') ~ 'control',
+        startsWith(id, '50731') ~ 'abx_fmt',
+        startsWith(id, '50740') ~ 'abx_fmt',
+        startsWith(id, '50752') ~ 'abx_fmt',
+        startsWith(id, '50776') ~ 'abx_fmt',
+      ),
+    infected = if_else(str_detect(treatment, pattern = 'H1N1') & age_months == 6,
+                       paste('yes'),
+                       paste('no')) 
+  ) %>%
+  select(names(all_weight_points)) %>%
+  bind_rows(all_weight_points)
+
+write_csv(weight, 'data/weight_data.csv')
+  
+# CBC data
 temp.file_cbc <- paste(tempfile(),".xlsx",sep = "") # CBC data
 download.file("https://ucdavis.box.com/shared/static/dsmwnxm7nv9r0jckrhj9vmbkwx4jc3sk.xlsx",
               temp.file_cbc, mode = "wb")

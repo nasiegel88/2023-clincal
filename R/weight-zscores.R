@@ -4,6 +4,7 @@ sub$id <- as.factor(sub$id)
 sub$age_months <- as.factor(sub$age_months)
 sub$treatment <- as.factor(sub$treatment)
 sub$weight_zscore <- ave(sub$weight_kg, sub$sex, sub$age_months, FUN=scale)
+
 # calculcate z scores using the CNPRC animals as our population mean. Discrete monthly scale.
 age_months = (0:6)
 no_infection$id <- as.factor(no_infection$id)
@@ -35,6 +36,7 @@ dd$treatment <- as.factor(dd$treatment)
 dd <- dd %>%
   arrange(id)
 dd <- as_tibble(dd)
+
 # Now, lets do a continous scale and replace age_months for age days \
 # starting with the uninfected animals
 cont = no_infection[,c("sex","treatment","id" , "age_days", "weight_kg")]
@@ -42,6 +44,7 @@ cont$id <- as.factor(cont$id)
 cont$age_days <- as.integer(cont$age_days)
 cont$treatment <- as.factor(cont$treatment)
 cont$weight_zscore <- ave(cont$weight_kg, FUN=scale)
+
 # Lastly, lets do the same with the CNPRC parameter
 age_months = (0:6)
 diff = no_infection[,c("id","sex" ,"treatment","age_months" ,"age_days" ,"weight_kg")]

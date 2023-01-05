@@ -1,10 +1,11 @@
-#### White Blood cells/ul Z-scores
-```{r}
-test <- cont %>% filter(Treatment == 'Control H1N1' |  Treatment == 'Antibiotic H1N1')
+## White Blood cells/ul Z-scores
+
+```{r echo = FALSE}
+table <- cont %>% filter(Treatment == 'Control H1N1' |  Treatment == 'Antibiotic H1N1')
 ```
 
 ```{r echo=F}
-fit=lmerTest::lmer(WBC_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=test)
+fit=lmerTest::lmer(WBC_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=table)
 ```
 
 ```{r echo=FALSE}
@@ -22,10 +23,10 @@ kbl(dt, booktabs = T, digits = 3, caption = "Total WBC Z score") %>%
   kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
 ```
 
-### Polymononuclear Cells/ul z-scores
+## Polymononuclear Cells/ul z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(PMN_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=test)
+fit=lmerTest::lmer(PMN_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=table)
 ```
 
 ```{r echo=FALSE}
@@ -43,10 +44,10 @@ kbl(dt, booktabs = T, digits = 3, caption = "PMN Concentration Z score") %>%
   kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
 ```
 
-### Lymphoyctes/ul z-scores
+## Lymphoyctes/ul z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(Lymph_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=test )
+fit=lmerTest::lmer(Lymph_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=table )
 ```
 
 ```{r echo=FALSE}
@@ -64,10 +65,10 @@ kbl(dt, booktabs = T, digits = 3, caption = "Lymphocyte Concentration Z score") 
   kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
 ```
 
-### Monocytes/ul z-scores
+## Monocytes/ul z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(Mono_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=test)
+fit=lmerTest::lmer(Mono_zscore ~ ns(infection_day, df=5)*Treatment +(1|animal_number),data=table)
 ```
 
 ```{r echo=FALSE}
@@ -85,10 +86,10 @@ kbl(dt, booktabs = T, digits = 3, caption = "Monocyte Concentration Z score") %>
   kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
 ```
 
-### Eosinophils/ul z scores
+## Eosinophils/ul z scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(Eos_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=test)
+fit=lmerTest::lmer(Eos_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=table)
 ```
 
 ```{r echo=FALSE}
@@ -106,10 +107,10 @@ kbl(dt, booktabs = T, digits = 3, caption = "Eosinophil Concentration Z score") 
   kable_styling(latex_options = c("striped", "hold_position",  font_size = 16, html_font = "arial"))
 ```
 
-### Neutrophil to Lymphocte ratio z scores
+## Neutrophil to Lymphocte ratio z scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(NLR_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=test)
+fit=lmerTest::lmer(NLR_zscore ~ ns(infection_day, df=5)*Treatment+(1|animal_number),data=table)
 ```
 
 ```{r echo=FALSE}

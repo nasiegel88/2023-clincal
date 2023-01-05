@@ -1,5 +1,4 @@
-Linear mixed model fit by REML. t-tests use Satterthwaite's method [
-lmerModLmerTest]
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
 Formula: weight_zscore ~ sex * treatment * age_days + (1 | id)
    Data: cont
 
@@ -16,26 +15,17 @@ Random effects:
 Number of obs: 189, groups:  id, 26
 
 Fixed effects:
-                                 Estimate Std. Error         df t value
-(Intercept)                    -1.540e+00  1.474e-01  2.673e+01 -10.452
-sexM                            2.127e-01  1.845e-01  2.710e+01   1.153
-treatmentcontrol                1.540e-01  1.999e-01  2.693e+01   0.770
-age_days                        1.591e-02  4.860e-04  1.591e+02  32.748
-sexM:treatmentcontrol          -2.166e-01  2.652e-01  2.698e+01  -0.817
-sexM:age_days                  -8.290e-05  6.205e-04  1.591e+02  -0.134
-treatmentcontrol:age_days      -1.937e-03  6.775e-04  1.592e+02  -2.860
-sexM:treatmentcontrol:age_days  2.214e-03  9.203e-04  1.592e+02   2.406
-                               Pr(>|t|)    
-(Intercept)                    6.13e-11 ***
-sexM                            0.25899    
-treatmentcontrol                0.44800    
-age_days                        < 2e-16 ***
-sexM:treatmentcontrol           0.42131    
-sexM:age_days                   0.89388    
-treatmentcontrol:age_days       0.00481 ** 
-sexM:treatmentcontrol:age_days  0.01727 *  
+                                 Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)                    -1.540e+00  1.474e-01  2.673e+01 -10.452 6.13e-11 ***
+sexM                            2.127e-01  1.845e-01  2.710e+01   1.153  0.25899    
+treatmentcontrol                1.540e-01  1.999e-01  2.693e+01   0.770  0.44800    
+age_days                        1.591e-02  4.860e-04  1.591e+02  32.748  < 2e-16 ***
+sexM:treatmentcontrol          -2.166e-01  2.652e-01  2.698e+01  -0.817  0.42131    
+sexM:age_days                  -8.290e-05  6.205e-04  1.591e+02  -0.134  0.89388    
+treatmentcontrol:age_days      -1.937e-03  6.775e-04  1.592e+02  -2.860  0.00481 ** 
+sexM:treatmentcontrol:age_days  2.214e-03  9.203e-04  1.592e+02   2.406  0.01727 *  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Correlation of Fixed Effects:
             (Intr) sexM   trtmnt ag_dys sxM:tr sxM:g_ trtm:_
