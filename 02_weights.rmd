@@ -41,26 +41,51 @@ source("R/download-data.R")
 var = "tables/"
 ```
 
-```{r include=F}
-source("R/subset.R", local = TRUE)
-```
-
-```{r include=F}
-source("R/weight-zscores.R", local = TRUE)
+```{r echo = FALSE}
+data <- read_csv('data/weight_data.csv') %>%
+  rename(
+    Year = year,
+    MMU = id,
+    Sex = sex,
+    Treatment = treatment,
+    Infected = infected,
+    Date = date,
+    Birthday = birthday,
+  ) %>%
+  mutate(
+    MMU = as.factor(MMU),
+    Sex = str_replace(Sex, 'M$', 'Male'),
+    Sex = str_replace(Sex, 'F$', 'Female'),
+    Treatment = as.factor(if_else(Infected == 'no' & str_detect(Treatment, 'H1N1'),
+                        str_remove(Treatment, '_H1N1'),
+                        str_remove(Treatment, ' '))),
+    Treatment = str_replace(Treatment, 'control', 'Control'),
+    Treatment = str_replace(Treatment, 'ABX', 'Antibiotic'),
+    Treatment = str_replace(Treatment, 'abx', 'Antibiotic'),
+    Treatment = str_replace(Treatment, 'Control_H1N1', 'Control H1N1'),
+    Treatment = str_replace(Treatment, 'Antibiotic_H1N1', 'Antibiotic H1N1'),
+    Treatment = str_replace(Treatment, 'Antibiotic_fmt', 'Antibiotic FMT'),
+    weight_zscore = ave(weight_kg, FUN=scale)
+  )
 ```
 
 ### Weight Z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(weight_zscore ~sex*treatment*age_days+(1|id),data=cont)
+fit=lmerTest::lmer(weight_zscore ~Sex*Treatment*age_days+(1|MMU),
+                   data=data %>% filter(
+                     Treatment == 'Antibiotic' | Treatment == 'Control'))
+
 write(capture.output(summary(fit)), "tables/continuous-time-weightmod.txt") # export model summary to file
-write.xlsx(cont, file= paste(var, "continuous-modinput" , ".xlsx", sep=""), sheetName="Sheet1",
+
+write.xlsx(data, file= paste(var, "continuous-modinput" , ".xlsx", sep=""), sheetName="Sheet1",
          col.names=TRUE, row.names=TRUE, append=FALSE) # export input table for model
 ```
 
 ### Residual plot
+
 ```{r echo=F}
-p=plot_model(fit, type = "eff", title="", terms = c("age_days", 'treatment', "sex"), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
+p=plot_model(fit, type = "eff", title="", terms = c('age_days', 'Treatment', "Sex"), colors = c("darkred", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p
 dir = file.path("figures", "weight-zscores-mean-pred.tiff")
 ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
@@ -68,7 +93,7 @@ ggsave(dir, plot = p, width = 12, height = 5, units = "in", compression = "lzw")
 
 ### Model table
 ```{r echo=F}
-kable(as.data.frame(anova(fit)), digits = 3, booktabs = TRUE) %>%
+kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
   kable_styling(latex_options = c("striped", "scale_down"))
 ```
 
