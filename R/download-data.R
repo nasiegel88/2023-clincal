@@ -8,7 +8,7 @@ all_weight_points <- read_excel(temp.file_all_weight_points) %>%
 # Data transfer to HPC
 ## scp -P 2022 -r "/mnt/c/Users/Noah Siegel/Desktop/webvitals/data/20230105-141546-weight_webvitals_query.csv" "nasiegel@farm.cse.ucdavis.edu:~/2023-clincal/data"
 
-weight <- read_csv('data/20230105-141546-weight_webvitals_query.csv') %>%
+weight <- read_csv('data/20230113-214107-weight_webvitals_query.csv') %>%
   select(-c(X1, Location)) %>%
   rename(
     id = MMU,
@@ -49,7 +49,8 @@ weight <- read_csv('data/20230105-141546-weight_webvitals_query.csv') %>%
                        paste('no')) 
   ) %>%
   select(names(all_weight_points)) %>%
-  bind_rows(all_weight_points)
+  bind_rows(all_weight_points) %>%
+  arrange(id, age_days)
 
 write_csv(weight, 'data/weight_data.csv')
   
