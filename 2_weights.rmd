@@ -1,0 +1,87 @@
+---
+title: "Weight regression"
+author: 
+  - Noah Siegel
+date: "`r format(Sys.time(), '%d %B, %Y, %H:%M')`"
+knit: (function(inputFile, encoding) {
+  rmarkdown::render(inputFile, encoding = encoding, output_dir = "documents") })
+output:
+  pdf_document:
+     includes:
+        in_header: style.sty
+---
+
+```{r environment, include=F}
+# Set up global options for nice reports and keeping figures:
+knitr::opts_chunk$set(fig.width=14, fig.height=8, fig.align="center", dev = 'png',
+                      warning=FALSE, message=FALSE)
+```
+
+```{r}
+suppressPackageStartupMessages({
+  library(plyr)
+  library(tidyverse)
+  library(sjPlot)
+  library(lmerTest)
+  library(readxl)
+  library(xlsx)
+  library(kableExtra)
+})
+```
+
+```{r directory, include=F}
+dir.create('figures/weight/fmt', showWarnings = FALSE, recursive = TRUE)
+dir.create('figures/weight/h1n1', showWarnings = FALSE, recursive = TRUE)
+dir.create('tables/fmt', showWarnings = FALSE)
+dir.create('tables/h1n1', showWarnings = FALSE)
+```
+
+```{r echo = FALSE}
+data <- read_csv('data/weight_data.csv') %>%
+  dplyr::rename(
+    Year = year,
+    MMU = id,
+    Infected = infected,
+    Date = date,
+    Birthday = birthday
+  ) %>%
+  mutate(weight_zscore = ave(weight_kg, FUN=scale))
+```
+
+```{r echo=F}
+# format metadata for publication
+data$treatment <- as.character(data$treatment)
+data$sex <- as.character(data$sex)
+names(data)[names(data)=="treatment"] <- "Treatment"
+names(data)[names(data)=="sex"] <- "Sex"
+data$Treatment[data$Treatment == "control"] <- "Control"
+data$Treatment[data$Treatment == "abx"] <- "Antibiotic"
+data$Treatment[data$Treatment == "ABX"] <- "Antibiotic"
+data$Treatment[data$Treatment == "abx_fmt"] <- "Antibiotic FMT"
+data$Treatment[data$Treatment == "control_H1N1"] <- "Control H1N1"
+data$Treatment[data$Treatment == "abx_H1N1"] <- "Antibiotic H1N1"
+data$Treatment[data$Treatment == "ABX_H1N1"] <- "Antibiotic H1N1"
+```
+
+```{r echo=F}
+data$Sex[data$Sex == "M"] <- "Male"
+data$Sex[data$Sex == "F"] <- "Female"
+data$Treatment <- factor(data$Treatment)
+data$Sex <- factor(data$Sex)
+```
+
+# H1N1 Control vs. Antibiotic
+
+```{r H1N1-Control-vs-ABX-animals, child = '2.1_h1n1.rmd'}
+```
+
+# FMT vs. Antibiotic
+
+```{r FMT-vs.-ABX-animals, child = '2.2_fmt.rmd'}
+```
+
+### Session Information
+```{r echo=F}
+sessionInfo()
+```
+

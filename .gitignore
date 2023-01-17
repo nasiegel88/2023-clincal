@@ -6,3 +6,4 @@
 .subversion/
 *.log
 bin/
+.ipynb_checkpoints/

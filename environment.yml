@@ -33,3 +33,4 @@ dependencies:
  - r-remotes=2.3.0=r36hc72bb7e_0
  - r-patchwork=1.1.1=r36hc72bb7e_0
  - r-rmarkdown
+ - r-effects

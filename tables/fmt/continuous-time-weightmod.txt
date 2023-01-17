@@ -1,0 +1,32 @@
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: weight_zscore ~ Treatment * age_days + (1 | MMU)
+   Data: data %>% filter(Treatment == "Antibiotic FMT" | Treatment ==  
+    "Control")
+
+REML criterion at convergence: 33.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.98434 -0.43672 -0.01039  0.44591  2.59862 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ MMU      (Intercept) 0.05461  0.2337  
+ Residual             0.04589  0.2142  
+Number of obs: 118, groups:  MMU, 14
+
+Fixed effects:
+                            Estimate Std. Error         df t value Pr(>|t|)    
+(Intercept)               -1.414e+00  1.287e-01  1.446e+01  -10.99 2.06e-08 ***
+TreatmentControl           4.805e-02  1.552e-01  1.558e+01    0.31   0.7610    
+age_days                   1.375e-02  5.090e-04  1.023e+02   27.02  < 2e-16 ***
+TreatmentControl:age_days -1.543e-03  6.455e-04  1.024e+02   -2.39   0.0187 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) TrtmnC ag_dys
+TrtmntCntrl -0.829              
+age_days    -0.333  0.276       
+TrtmntCnt:_  0.263 -0.368 -0.788

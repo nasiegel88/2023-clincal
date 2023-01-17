@@ -1,0 +1,35 @@
+```{r echo=F}
+var = "tables/fmt"
+```
+
+### Weight Z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(weight_zscore ~Treatment*age_days+(1|MMU),
+                   data=data %>% filter(
+                     Treatment == 'Antibiotic FMT' | Treatment == 'Control'))
+
+write(capture.output(summary(fit)), "tables/fmt/continuous-time-weightmod.txt") # export model summary to file
+
+write.xlsx(data %>% filter(
+                     Treatment == 'Antibiotic FMT' | Treatment == 'Control'), file= paste(var, "/continuous-modinput" , ".xlsx", sep=""), sheetName="Sheet1",
+         col.names=TRUE, row.names=TRUE, append=FALSE) # export input table for model
+```
+
+### Residual plot
+
+```{r echo=F}
+p=plot_model(fit, type = "eff", title="", terms = c('age_days', 'Treatment'), colors = c("darkgreen", "darkblue"), show.data=TRUE) +
+  theme_classic() +
+  theme(text = element_text(size=20)) +
+  xlab('Age (days)')
+p
+dir = file.path("figures", "weight", "fmt", "weight-zscores-mean-pred.png")
+ggsave(dir, plot = p, width=12, height=5, dpi=300)
+```
+
+### Model table
+```{r echo=F}
+kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("striped", "scale_down"))
+```

@@ -63,12 +63,12 @@ cont$Sex <- factor(cont$Sex)
 
 # H1N1 Control vs. Antibiotic
 
-```{r H1N1-Control-vs-ABX-animals, child = '01.1_h1n1.rmd'}
+```{r H1N1-Control-vs-ABX-animals, child = '1.1_h1n1.rmd'}
 ```
 
 # FMT vs. Antibiotic
 
-```{r FMT-vs.-ABX-animals, child = '01.2_fmt.rmd'}
+```{r FMT-vs.-ABX-animals, child = '1.2_fmt.rmd'}
 ```
 
 # Session Information
