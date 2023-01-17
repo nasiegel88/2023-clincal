@@ -4,5 +4,5 @@
 .jupyter/
 .local/
 .subversion/
-01_cbcs.log
+*.log
 bin/

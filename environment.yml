@@ -32,4 +32,4 @@ dependencies:
  - r-randomForest=4.6_14=r36h580db52_1004
  - r-remotes=2.3.0=r36hc72bb7e_0
  - r-patchwork=1.1.1=r36hc72bb7e_0
- - r-rmarkdown=2.19
+ - r-rmarkdown

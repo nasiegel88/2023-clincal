@@ -31,11 +31,12 @@ suppressPackageStartupMessages({
 ```
 
 ```{r directory, include=F}
-dir.create('cbc', showWarnings = FALSE)
+dir.create('figures/cbc/h1n1', showWarnings = FALSE)
+dir.create('figures/cbc/fmt', showWarnings = FALSE)
 ```
 
 ```{r include=F}
-source("R/download-data.R")
+#source("R/download-data.R")
 source("R/functions.R")
 source("R/cbc-zscores.R", local = TRUE)
 ```
@@ -67,7 +68,7 @@ cont$Sex <- factor(cont$Sex)
 
 # FMT vs. Antibiotic
 
-```{r FMT-vs.-ABX-animals, child = '01.1_h1n1.rmd'}
+```{r FMT-vs.-ABX-animals, child = '01.2_fmt.rmd'}
 ```
 
 # Session Information
