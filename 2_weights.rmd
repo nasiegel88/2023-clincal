@@ -75,6 +75,8 @@ data$Sex <- factor(data$Sex)
 ```{r H1N1-Control-vs-ABX-animals, child = '2.1_h1n1.rmd'}
 ```
 
+\newpage
+
 # FMT vs. Antibiotic
 
 ```{r FMT-vs.-ABX-animals, child = '2.2_fmt.rmd'}
