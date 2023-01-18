@@ -1,45 +1,37 @@
 Linear mixed model fit by REML. t-tests use Satterthwaite's method [
 lmerModLmerTest]
-Formula: weight_zscore ~ Sex * Treatment * age_days + (1 | MMU)
+Formula: weight_zscore ~ Treatment * age_days + (1 | MMU)
    Data: data %>% filter(Treatment == "Antibiotic H1N1" | Treatment ==  
     "Control H1N1")
 
-REML criterion at convergence: 100.8
+REML criterion at convergence: 110.1
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.0144 -0.4984 -0.0168  0.4362  9.8952 
+-2.1559 -0.4984  0.0073  0.4027  9.4327 
 
 Random effects:
  Groups   Name        Variance Std.Dev.
- MMU      (Intercept) 0.08914  0.2986  
- Residual             0.06531  0.2556  
+ MMU      (Intercept) 0.11547  0.3398  
+ Residual             0.07177  0.2679  
 Number of obs: 190, groups:  MMU, 14
 
 Fixed effects:
                                  Estimate Std. Error         df t value
-(Intercept)                    -1.437e+00  3.799e-01  1.487e+01  -3.784
-SexMale                         1.050e-01  3.577e-01  1.473e+01   0.293
-TreatmentControl H1N1          -4.824e-02  1.843e-01  1.475e+01  -0.262
-age_days                        1.041e-02  1.186e-03  1.730e+02   8.772
-SexMale:age_days                4.738e-03  1.107e-03  1.730e+02   4.280
-TreatmentControl H1N1:age_days -1.875e-03  5.844e-04  1.734e+02  -3.208
+(Intercept)                    -1.332e+00  1.431e-01  1.663e+01  -9.313
+TreatmentControl H1N1          -7.623e-02  1.992e-01  1.562e+01  -0.383
+age_days                        1.514e-02  4.471e-04  1.739e+02  33.871
+TreatmentControl H1N1:age_days -2.503e-03  5.937e-04  1.743e+02  -4.217
                                Pr(>|t|)    
-(Intercept)                     0.00183 ** 
-SexMale                         0.77330    
-TreatmentControl H1N1           0.79717    
-age_days                       1.62e-15 ***
-SexMale:age_days               3.08e-05 ***
-TreatmentControl H1N1:age_days  0.00159 ** 
+(Intercept)                    5.26e-08 ***
+TreatmentControl H1N1             0.707    
+age_days                        < 2e-16 ***
+TreatmentControl H1N1:age_days 3.98e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Correlation of Fixed Effects:
-            (Intr) SexMal TrCH1N1 ag_dys SxMl:_
-SexMale     -0.942                             
-TrtmntCH1N1 -0.485  0.267                      
-age_days    -0.385  0.355  0.186               
-SexMl:g_dys  0.358 -0.380 -0.087  -0.933       
-TrtmCH1N1:_  0.183 -0.085 -0.377  -0.493  0.247
-fit warnings:
-fixed-effect model matrix is rank deficient so dropping 2 columns / coefficients
+            (Intr) TrCH1N1 ag_dys
+TrtmntCH1N1 -0.718               
+age_days    -0.393  0.282        
+TrtmCH1N1:_  0.296 -0.358  -0.753

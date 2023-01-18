@@ -5,7 +5,7 @@ var = "tables/h1n1"
 ### Weight Z-scores
 
 ```{r echo=F}
-fit=lmerTest::lmer(weight_zscore ~Sex*Treatment*age_days+(1|MMU),
+fit=lmerTest::lmer(weight_zscore ~ Treatment*age_days+(1|MMU),
                    data=data %>% filter(
                      Treatment == 'Antibiotic H1N1' | Treatment == 'Control H1N1'))
 
@@ -32,5 +32,5 @@ ggsave(dir, plot = p, width=12, height=5, dpi=300)
 ### Model table
 ```{r echo=F}
 kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
-  kable_styling(latex_options = c("striped", "scale_down"))
+  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
 ```

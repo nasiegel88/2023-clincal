@@ -70,16 +70,57 @@ data$Treatment <- factor(data$Treatment)
 data$Sex <- factor(data$Sex)
 ```
 
+# Write-up
+
+Using a linear mixed-effects model, it was found that the interaction between treatment
+and age (in days) was significantly different when comparing influenza-infected control (CTRL H1N1) and antibiotic (ABX H1N1) animals and control (CTRL) and fecal microbiome transplant (FMT) animals. Sex was not used as a factor in these analyses because it was determined through [analysis of both physiological and gut microbiome data of ABX and CTRL animals](https://github.com/nasiegel88/2021-early-life-gut-microbiome) that males are most heavily impacted by early-life antibiotic treatment.
+
+The original hypothesis was that FMT would reverse the weight changes observed in
+ABX and CTRL animals. However, these data suggest that FMT animals weigh more than CTRL
+animals. Given that the interaction between age and treatment did not differ between CTRL
+and ABX animals, it was surprising to observe significant differences when comparing
+FMT and CTRL animals. 
+
+Furthermore, it was hypothesized that influenza infection would exacerbate 
+changes observed in ABX and CTRL animals. Our linear mixed-effects model of ABX
+and CTRL animals demonstrates a significant difference in the interaction between
+sex, age, and treatment, but not age and treatment. With influenza infection and
+utilizing age and treatment as factors, we show that influenza-infected animals
+that received antibiotics during the first week of life are heavier than animals 
+that did not receive antibiotic treatment.
+
+Based on these results, it can be reasoned that FMT does not reverse weight changes
+associated with antibiotics since none were observed when sex was not considered.
+It is hard to explain what the significant increase in weight of FMT animals could
+be since the same effect is observed in ABX H1N1 animals compared to CTRL
+H1N1 animals. My first hypothesis is that the increased weight in FMT animals
+and ABX H1N1 animals is unrelated. If this hypothesis proves to be valid, there
+must be something else going on. 
+
+The best way to address the current discrepancy is to assess whether FMT
+reverses the weight changes observed in H1N1 animals. The concern is what significance,
+or a lack-there-of, implies. In order to determine what is going on, we need to determine
+whether weight changes are good or bad. For example, when an animal is growing and
+healthy, positive weight change is good. Conversely, the immune response requires much
+energy; thus, negative weight change is often reported in infected animals. What's more, research demonstrates increased weight in response to antibiotics. This begs the question of whether the increased weight observed in ABX H1N1 animals is due to then ABX or the
+H1N1.
+
+\newpage
+
 # H1N1 Control vs. Antibiotic
 
-```{r H1N1-Control-vs-ABX-animals, child = '2.1_h1n1.rmd'}
+```{r, echo=FALSE, results='asis'}
+res <- knitr::knit_child('2.1_h1n1.rmd', quiet = TRUE)
+cat(res, sep = '\n')
 ```
 
 \newpage
 
 # FMT vs. Antibiotic
 
-```{r FMT-vs.-ABX-animals, child = '2.2_fmt.rmd'}
+```{r, echo=FALSE, results='asis'}
+res <- knitr::knit_child('2.2_fmt.rmd', quiet = TRUE)
+cat(res, sep = '\n')
 ```
 
 ### Session Information

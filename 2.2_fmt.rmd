@@ -30,6 +30,7 @@ ggsave(dir, plot = p, width=12, height=5, dpi=300)
 
 ### Model table
 ```{r echo=F}
-kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
-  kable_styling(latex_options = c("striped", "scale_down"))
+table <- kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
+table
 ```
