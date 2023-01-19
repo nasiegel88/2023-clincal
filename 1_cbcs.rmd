@@ -61,6 +61,23 @@ cont$Treatment <- factor(cont$Treatment)
 cont$Sex <- factor(cont$Sex)
 ```
 
+# Write-up
+Using non-linear mixed effects with splines, we were able to assess the changes
+in peripheral white blood cell populations. [We previously showed that antibiotic (ABX)
+treated animals had increased neutrophil-to-lymphocyte ratios (NLR) over six months when compared to control (CTRL) animals](https://github.com/nasiegel88/2021-early-life-gut-microbiome/blob/main/documents/01_cbcs.pdf). In addition to NLR, we looked
+at the frequency and concentrations of total white blood cells, lymphocytes, neutrophils
+(PMNs), monocytes, eosinophils, and basophils but none of the aforementioned populations
+were significantly different between ABX and CTRL animals. For this analysis antibiotic
+H1N1 (ABX H1N1) animals were compared with control H1N1 (CTRL H1N1), and fecal microbiome
+transplant (FMT) animals were compared against CTRL animals.
+
+The variables used in the original model were sex, treatment, and age (in days) and no difference was detected in NLR when treatment and age were used. Only when sex was considered did we observe significant changes in NLR-- increased NLR in ABX animals. It was first hypothesized that FMT would reverse the changes to NLR observed in ABX animals. Our analysis revealed no difference in FMT and CTRL animals for NLR or other peripheral measures. Our lab further hypothesized that influenza infection would exacerbate changes observed in ABX animals. However, this was not the case, but we did observe that ABX H1N1 animals had reduced lymphocyte populations compared to CTRL H1N1 animals.
+
+One concern is the assumption that FMT reversed changes to NLR in recipient animals because one of the variables that went into the original model included sex. Given the difficulty in acquiring non-human primates, we decided to omit females from future study groups to increase our male sample size. Thus, there is no difference in NLR when considering treatment and age in FMT animals, but the same is true when comparing ABX and CTRL animals. Influenza H1N1 infection did not exacerbate NLR in ABX H1N1 animals, but a decrease in lymphocyte populations was observed. Given that NLR is neutrophils over lymphocytes, we expect that NLR should have increased, but the ratios between CTRL H1N1 and ABX H1N1 are more similar than ABX and CTRL. This result is both perplexing and inconsistent. 
+
+The best way to alleviate these discrepancies is to compare FMT H1N1 and CTRL H1N1 animals. Hypothetically, if no difference in lymphocytes is observed in the FMT H1N1 group our hypothesis still has merit albeit we orginally expected to measure differences in NLR. With these data, we can draw a better conclusion on whether FMT reverses early life microbiome changes to the periphery and if H1N1 severity is reduced with early FMT intervention.
+
+
 # H1N1 Control vs. Antibiotic
 
 ```{r H1N1-Control-vs-ABX-animals, child = '1.1_h1n1.rmd'}
