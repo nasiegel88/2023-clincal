@@ -19,7 +19,7 @@ write.xlsx(data %>% filter(
 ### Residual plot
 
 ```{r echo=F}
-p=plot_model(fit, type = "eff", title="", terms = c('age_days', 'Treatment'),
+p=plot_model(fit, type = "pred", title="", terms = c('age_days', 'Treatment'),
              colors = c("darkred", "darkblue"), show.data=TRUE) +
   theme_classic() +
   theme(text = element_text(size=20)) +
@@ -32,7 +32,7 @@ ggsave(dir, plot = p, width=12, height=5, dpi=300)
 ### Model table
 ```{r echo=F}
 # Export csv
-write_csv(as.data.frame(anova(fit)) %>% mutate(across(where(is.numeric), round, 3)), path = 'tables/h1n1/anova_table.csv')
+write_csv(as.data.frame(anova(fit)) %>% mutate(across(where(is.numeric), round, 2)), file = 'tables/h1n1/anova_table.csv')
 kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
   kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
 ```

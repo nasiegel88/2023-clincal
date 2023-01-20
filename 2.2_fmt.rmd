@@ -19,7 +19,7 @@ write.xlsx(data %>% filter(
 ### Residual plot
 
 ```{r echo=F}
-p=plot_model(fit, type = "eff", title="", terms = c('age_days', 'Treatment'), colors = c("darkgreen", "darkblue"), show.data=TRUE) +
+p=plot_model(fit, type = "pred", title="", terms = c('age_days', 'Treatment'), colors = c("darkgreen", "darkblue"), show.data=TRUE) +
   theme_classic() +
   theme(text = element_text(size=20)) +
   xlab('Age (days)')
