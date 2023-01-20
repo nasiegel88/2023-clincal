@@ -32,7 +32,7 @@ fit=lmerTest::lmer(PMN_zscore ~ ns(age_days, df=5)*Treatment +(1|animal_number),
 ```{r echo=FALSE}
 p=plot_model(fit, type = "pred",title ="", terms = c("age_days [all]", 'Treatment'), colors = c("darkgreen", "darkblue"), show.data=TRUE) + theme_classic() + theme(text = element_text(size=20))
 p_res = plot_redres(fit, type = "std_cond")
-dir = file.path("figures", "cbc", "fmt", "NLR-zscores.png")
+dir = file.path("figures", "cbc", "fmt", "pmn-zscores.png")
 ggsave(dir, plot = p, width=12, height=5, dpi=300)
 p
 ```
