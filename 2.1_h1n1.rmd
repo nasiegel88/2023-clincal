@@ -32,7 +32,14 @@ ggsave(dir, plot = p, width=12, height=5, dpi=300)
 ### Model table
 ```{r echo=F}
 # Export csv
-write_csv(as.data.frame(anova(fit)) %>% mutate(across(where(is.numeric), round, 2)), file = 'tables/h1n1/anova_table.csv')
+table_export <- as.data.frame(anova(fit)) %>%
+            mutate(across(where(is.numeric), round, 3)) %>%
+  add_rownames(., var = "Variables")
+
+write_csv(table_export,
+          path = 'tables/h1n1/anova_table.csv',
+          col_names = TRUE)
+          
 kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
   kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
 ```
