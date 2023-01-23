@@ -3,6 +3,12 @@ metadata <- read_csv('data/cbc_data.csv')%>%
   slice(which.max(is.na(age_month))) %>%
   mutate(
     spacer = case_when(year == 2 & infection_day == 14 ~ 'no'),
+    treatment = if_else(infected == 'no',
+                        str_replace(treatment, "control_H1N1", "control"),
+                        str_replace(treatment, "control_H1N1", "control_H1N1")),
+    treatment = if_else(infected == 'no',
+                        str_replace(treatment, "abx_H1N1", "abx"),
+                        str_replace(treatment, "abx_H1N1", "abx_H1N1")),
     infected = if_else(is.na(spacer), infected, spacer),
     age_month = replace(age_month, infection_day == 14, 6),
     infection_day = replace(infection_day, age_month == 6, NA)

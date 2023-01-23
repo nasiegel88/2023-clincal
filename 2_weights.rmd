@@ -45,7 +45,8 @@ data <- read_csv('data/weight_data.csv') %>%
     Date = date,
     Birthday = birthday
   ) %>%
-  mutate(weight_zscore = ave(weight_kg, FUN=scale))
+  mutate(
+    weight_zscore = ave(weight_kg, FUN=scale))
 ```
 
 ```{r echo=F}

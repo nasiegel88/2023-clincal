@@ -1,6 +1,7 @@
 ```{r echo=F}
 var = "tables/h1n1"
 ```
+## Lifetime and infection
 
 ### Weight Z-scores
 
@@ -34,12 +35,61 @@ ggsave(dir, plot = p, width=12, height=5, dpi=300)
 # Export csv
 table_export <- as.data.frame(anova(fit)) %>%
             mutate(across(where(is.numeric), round, 3)) %>%
-  add_rownames(., var = "Variables")
+  tibble::rownames_to_column(., var = "Variables")
 
 write_csv(table_export,
-          path = 'tables/h1n1/anova_table.csv',
+          file = 'tables/h1n1/anova_table.csv',
           col_names = TRUE)
           
 kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
   kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
 ```
+
+## Infection
+
+```{r echo=F}
+df <- data %>% filter(Infected == 'yes')
+```
+
+### Weight Z-scores
+
+```{r echo=F}
+fit=lmerTest::lmer(weight_zscore ~ Treatment*age_days+(1|MMU),
+                   data=df %>% filter(
+                     Treatment == 'Antibiotic H1N1' | Treatment == 'Control H1N1'))
+
+write(capture.output(summary(fit)), "tables/h1n1/infection-continuous-time-weightmod.txt") # export model summary to file
+
+write.xlsx(df %>% filter(
+                     Treatment == 'Antibiotic H1N1' | Treatment == 'Control H1N1'), file= paste(var, "/infection-continuous-modinput" , ".xlsx", sep=""), sheetName="Sheet1",
+         col.names=TRUE, row.names=TRUE, append=FALSE) # export input table for model
+```
+
+### Residual plot
+
+```{r echo=F}
+p=plot_model(fit, type = "pred", title="", terms = c('age_days', 'Treatment'),
+             colors = c("darkred", "darkblue"), show.data=TRUE) +
+  theme_classic() +
+  theme(text = element_text(size=20)) +
+  xlab('Age (days)')
+p
+dir = file.path("figures", "weight", "h1n1", "infection-weight-zscores-mean-pred.png")
+ggsave(dir, plot = p, width=12, height=5, dpi=300)
+```
+
+### Model table
+```{r echo=F}
+# Export csv
+table_export <- as.data.frame(anova(fit)) %>%
+            mutate(across(where(is.numeric), round, 3)) %>%
+  tibble::rownames_to_column(., var = "Variables")
+
+write_csv(table_export,
+          file = 'tables/h1n1/infection-anova_table.csv',
+          col_names = TRUE)
+          
+kable(as.data.frame(anova(fit)), digits = 5, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("striped", "scale_down", "HOLD_position"))
+```
+

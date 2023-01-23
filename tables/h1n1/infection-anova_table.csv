@@ -1,0 +1,4 @@
+Variables,Sum Sq,Mean Sq,NumDF,DenDF,F value,Pr(>F)
+Treatment,0.64,0.64,1,70.209,7.859,0.007
+age_days,1.588,1.588,1,68.768,19.512,0
+Treatment:age_days,0.762,0.762,1,68.768,9.368,0.003

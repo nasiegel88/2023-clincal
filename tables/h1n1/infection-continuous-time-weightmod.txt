@@ -1,0 +1,37 @@
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: weight_zscore ~ Treatment * age_days + (1 | MMU)
+   Data: 
+df %>% filter(Treatment == "Antibiotic H1N1" | Treatment == "Control H1N1")
+
+REML criterion at convergence: 78.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.1665 -0.2235  0.0105  0.2797  6.4927 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ MMU      (Intercept) 0.19227  0.4385  
+ Residual             0.08139  0.2853  
+Number of obs: 80, groups:  MMU, 14
+
+Fixed effects:
+                                Estimate Std. Error        df t value Pr(>|t|)
+(Intercept)                    -6.551901   1.527388 71.987690  -4.290 5.48e-05
+TreatmentControl H1N1           5.947736   2.121643 70.208635   2.803  0.00653
+age_days                        0.044318   0.008433 70.795289   5.255 1.49e-06
+TreatmentControl H1N1:age_days -0.036278   0.011853 68.767548  -3.061  0.00315
+                                  
+(Intercept)                    ***
+TreatmentControl H1N1          ** 
+age_days                       ***
+TreatmentControl H1N1:age_days ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) TrCH1N1 ag_dys
+TrtmntCH1N1 -0.720               
+age_days    -0.994  0.715        
+TrtmCH1N1:_  0.707 -0.993  -0.711
