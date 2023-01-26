@@ -1,7 +1,11 @@
 ## White Blood cells/ul Z-scores
 
 ```{r echo = FALSE}
-fmt <- cont %>% filter(Treatment == 'Control' |  Treatment == 'Antibiotic FMT')
+fmt <- cont %>% 
+  filter(Treatment == 'Control' |  Treatment == 'Antibiotic FMT') %>%
+  
+  # Remove females from fmt comparison
+  filter(!Sex == 'Females')
 ```
 
 ```{r echo=F}

@@ -12,7 +12,9 @@ df <- data %>%
     treatment = if_else(Infected == 'no',
                         str_replace(Treatment, "Antibiotic H1N1", "Antibiotic"),
                         str_replace(Treatment, "Antibiotic H1N1", "Antibiotic H1N1"))
-  )
+  ) %>%
+  
+  filter(!Sex == 'Female')
 ```
 
 
